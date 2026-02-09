@@ -41,8 +41,7 @@ def Energy(s, L, J):
             S = s[i, j]
             nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
             energy += -nn*S   
-    return J*energy/4
-
+    return energy/4 #add/remove J
 
 
 @njit(cache = True)
@@ -52,10 +51,6 @@ def Mag(s):
         for j in range(s.shape[1]):
             mag += s[i, j]
     return mag
-
-
-
-
 
 
 def equilibriate(s, L, J, max_sweeps,stable_blocks = 5, block_size = 100, tol = 1e-4):
@@ -72,10 +67,10 @@ def equilibriate(s, L, J, max_sweeps,stable_blocks = 5, block_size = 100, tol = 
             
         block_avg = E_block/block_size
 
-        if prev_block_avg:
+        if prev_block_avg is not None:
             if abs(block_avg - prev_block_avg) < tol:
                 stable_count += 1
-                if stable_count > stable_blocks:
+                if stable_count >= stable_blocks:
                     print(f'Achieved stable count at {count}')
                     break
             else:
@@ -98,17 +93,17 @@ def main():
         for _ in range(mc_sweeps):
             MonterCarlo_move(s,L,J)
             E_sample = Energy(s, L, J)
-            M_sample = abs(Mag(s))
+            M_sample = Mag(s)
         
             E_j += E_sample
-            M_j += M_sample
+            M_j += abs(M_sample)
             E2_j += E_sample*E_sample
             M2_j += M_sample*M_sample
-        
+        T = T_list[n]
         E[n] = E_j/(mc_sweeps*L*L)
         M[n] = M_j/(mc_sweeps*L*L)
-        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L) # *1/(T_list[n]*T_list[n])
-        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L) # *1/T_list[n]
+        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L*T*T) 
+        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L*T) 
 
 def to_list(x):
     return x.tolist() if isinstance(x, np.ndarray) else x
@@ -117,10 +112,10 @@ if __name__ == '__main__':
 
     ### Define algorithm parameters ###
 
-    temp_points = 80      #number of temperature points
-    L = 32                #lattice size
-    eq_limit = 10000      # Maximum iterations before equilibrum
-    mc_sweeps  = 10000    #Sweeps in Monte Carlo-sampling
+    temp_points = 100      # number of temperature points
+    L = 32                 # lattice size
+    eq_limit = 50000       # Maximum iterations before equilibrum
+    mc_sweeps  = 10000     # Sweeps in Monte Carlo-sampling
 
     T_list = np.linspace(0.5, 5, temp_points)        #change to real Boltzman constant if necessary
     J_list = 1/(T_list)
