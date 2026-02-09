@@ -1,7 +1,6 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import random
 from tqdm.auto import tqdm
 
 from numba import njit
@@ -143,29 +142,3 @@ if __name__ == '__main__':
         json.dump(results, f, indent=4)
 
     print('Results saved in .json')
-
-    f = plt.figure(figsize=(16,10))
-
-
-    sp =  f.add_subplot(2, 2, 1 );
-    plt.scatter(T_list, E, s=50, color='Red')
-    plt.xlabel("Temperature (T)", fontsize=20);
-    plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
-
-    sp =  f.add_subplot(2, 2, 2);
-    plt.scatter(T_list, M, s=50, color='Blue')
-    plt.xlabel("Temperature (T)", fontsize=20);
-    plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
-
-    sp =  f.add_subplot(2, 2, 3 );
-    plt.scatter(T_list, CV, s=50, color='Red')
-    plt.xlabel("Temperature (T)", fontsize=20);
-    plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
-
-    sp =  f.add_subplot(2, 2, 4 );
-    plt.scatter(T_list, X, s=50, color='Blue')
-    plt.xlabel("Temperature (T)", fontsize=20);
-    plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
-    plt.savefig(f'figs/Task1_{L}x{L}')
-    plt.show()
-
