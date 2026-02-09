@@ -6,6 +6,8 @@ from tqdm.auto import tqdm
 
 from numba import njit
 
+import json
+
 
 def init_lattice(L):
     return np.random.choice([-1,1], size = (L,L))
@@ -108,6 +110,9 @@ def main():
         CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L) # *1/(T_list[n]*T_list[n])
         X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L) # *1/T_list[n]
 
+def to_list(x):
+    return x.tolist() if isinstance(x, np.ndarray) else x
+
 if __name__ == '__main__':
 
     ### Define algorithm parameters ###
@@ -126,6 +131,23 @@ if __name__ == '__main__':
     
     main()
 
+
+    results = {
+               'E': to_list(E),
+               'M': to_list(M),
+               'CV': to_list(CV),
+               'X': to_list(X),
+               'T_list': to_list(T_list),
+               'J_list': to_list(J_list),
+               'L': int(L),
+               'temp_points': int(temp_points),
+               'mc_sweeps': int(mc_sweeps),
+               'eq_limit': int(eq_limit)}
+    
+    with open(f"data/results_task1_L{L}.json", "w") as f:
+        json.dump(results, f, indent=4)
+
+    print('Results saved in .json')
 
     f = plt.figure(figsize=(16,10))
 
