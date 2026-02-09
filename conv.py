@@ -40,7 +40,7 @@ def analytical_E(L, J, kappa, kappa_prim):
 
 
 def analytical_M(J, z):
-    Jc = 0.44068 # 0.5 * np.log(1 + np.sqrt(2))
+    Jc = 0.4406868 # 0.5 * np.log(1 + np.sqrt(2))
     if J <= Jc:
         return 0.0
     return (1+z**2)**0.25 * (1 - 6*z**2 + z**4)**0.125/(1-z**2)**0.5
@@ -76,7 +76,12 @@ def file_ret(L):
     T_list = np.array(data["T_list"])
     J_list = np.array(data["J_list"])
 
-    return E, M, CV, J_list, T_list
+
+    U = np.array(data["U"])
+    return E, M, CV, U, J_list, T_list
+
+
+
 def to_list(x):
     return x.tolist() if isinstance(x, np.ndarray) else x
 
