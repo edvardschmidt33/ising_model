@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 import random
 from tqdm.auto import tqdm
 
-from numba import jit
+from numba import njit
 
 
 def init_lattice(L):
     return np.random.choice([-1,1], size = (L,L))
 
-
+@njit(cache = True)
 def dE(s, i, j, L, J):
     t = s[i - 1 if i>0 else L-1, j]
     b = s[i + 1 if i<L-1 else 0, j]
@@ -19,20 +19,19 @@ def dE(s, i, j, L, J):
 
     return J * 2 * (t + b + l + r) * s[i, j]
 
-
+@njit(cache = True, fastmath = True)
 def MonterCarlo_move(s, L, J):
-    for _ in range(L):
-        for _ in range(L):        
-            i = random.randrange(L)
-            j = random.randrange(L)
-            ediff = dE(s,i,j,L, J)
-            if ediff <= 0:
-                s[i,j] = -s[i, j]
-            elif random.random() < np.exp(-ediff):
-                s[i,j] = -s[i, j]
+    for _ in range(L*L):       
+        i = np.random.randint(0,L)
+        j = np.random.randint(0,L)
+        ediff = dE(s,i,j,L, J)
+        if ediff <= 0:
+            s[i,j] = -s[i, j]
+        elif np.random.random() < np.exp(-ediff):
+            s[i,j] = -s[i, j]
     return s
 
-
+@njit(cache = True, fastmath = True)
 def Energy(s, L, J):
     energy = 0
     for i in range(L):
@@ -42,8 +41,15 @@ def Energy(s, L, J):
             energy += -nn*S   
     return J*energy/4
 
+
+
+@njit(cache = True)
 def Mag(s):
-    return np.sum(s)
+    mag = 0
+    for i in range(s.shape[0]):
+        for j in range(s.shape[1]):
+            mag += s[i, j]
+    return mag
 
 
 
@@ -99,15 +105,15 @@ def main():
         
         E[n] = E_j/(mc_sweeps*L*L)
         M[n] = M_j/(mc_sweeps*L*L)
-        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L)
-        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L)
+        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L) # *1/(T_list[n]*T_list[n])
+        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L) # *1/T_list[n]
 
 if __name__ == '__main__':
 
     ### Define algorithm parameters ###
 
-    temp_points = 80   #number of temperature points
-    L = 16               #lattice size
+    temp_points = 80      #number of temperature points
+    L = 32                #lattice size
     eq_limit = 10000      # Maximum iterations before equilibrum
     mc_sweeps  = 10000    #Sweeps in Monte Carlo-sampling
 
@@ -143,7 +149,6 @@ if __name__ == '__main__':
     plt.scatter(T_list, X, s=50, color='Blue')
     plt.xlabel("Temperature (T)", fontsize=20);
     plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
-
     plt.savefig(f'figs/Task1_{L}x{L}')
-
+    plt.show()
 
