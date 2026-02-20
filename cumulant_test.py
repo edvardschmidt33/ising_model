@@ -11,5 +11,9 @@ if __name__ == '__main__':
     plt.scatter(T_list, U_8, color = 'RoyalBlue',label = 'L = 8')
     plt.scatter(T_list, U_16, color = 'IndianRed' , label = 'L = 16')
     plt.scatter(T_list, U_32, color = 'forestGreen',label = 'L = 32')
+    plt.xlabel('Temperature')
+    plt.ylabel('Cumulant (4th order)')
     plt.legend()
+    plt.savefig('figs/Task1_cumulant.png')
     plt.show()
+    

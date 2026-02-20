@@ -88,9 +88,9 @@ def to_list(x):
 if __name__ == '__main__':
     
 
-    E_8, M_8, CV_8, J_list, T_list = file_ret(8)
-    E_16, M_16, CV_16, J_list, T_list = file_ret(16)
-    E_32, M_32, CV_32, J_list, T_list = file_ret(32)
+    E_8, M_8, CV_8, U8 ,J_list, T_list = file_ret(8)
+    E_16, M_16, CV_16, U16,  J_list, T_list = file_ret(16)
+    E_32, M_32, CV_32, U32,J_list, T_list = file_ret(32)
     z_list = [z(J) for J in J_list]
     M_list = zip(z_list, J_list)
     E_analytical = 0.5* np.array([analytical_E_per_spin(J) for J in J_list])
@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
 
 
-    f = plt.figure(figsize=(7,7))
+    f = plt.figure(figsize=(7,8))
 
 
 
@@ -131,5 +131,5 @@ if __name__ == '__main__':
     plt.scatter(T_list, CV_32, s=50, color='Orange', label= 'L = 32')
     plt.xlabel("Temperature (T)", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
+    plt.savefig('figs/Task1_analytical')
     plt.show()
-
