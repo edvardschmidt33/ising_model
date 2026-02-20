@@ -29,7 +29,7 @@ def file_ret_B(L, B):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 32
+    L = 8
     E, M, CV, X, U, J_list, T_list = file_ret_B(L, 0)
     E001, M001, CV001, X001, U001, _, _ = file_ret_B(L, 0.01)
     E005, M005,CV005, X005,U005,_,_ = file_ret_B(L, 0.05)
@@ -38,7 +38,8 @@ if __name__ == '__main__':
     E1, M1, CV1, X1, U1,_,_ = file_ret_B(L, 1)
     
     f = plt.figure(figsize=(16,10))
-
+    f.suptitle(f"Comparison of different B with L = {L} ",
+                fontsize=24)
 
     sp =  f.add_subplot(2, 2, 1 );
     plt.scatter(T_list, E, s=10, color='IndianRed', label = 'B = 0')

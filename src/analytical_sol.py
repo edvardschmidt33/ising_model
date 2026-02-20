@@ -65,7 +65,7 @@ def analytical_CV_per_spin(J):
 
 
 def file_ret(L):
-    filename = f'data/results_task1_L{L}.json'
+    filename = f'./data/results_task1_L{L}.json'
     
     with open(filename, "r") as f:
         data = json.load(f)
@@ -106,7 +106,7 @@ if __name__ == '__main__':
                'J_list': to_list(J_list)
                }
     
-    with open(f"data/results_task1_analytical.json", "w") as f:
+    with open(f"./data/results_task1_analytical.json", "w") as f:
         json.dump(results, f, indent=4)
 
 
@@ -116,6 +116,8 @@ if __name__ == '__main__':
 
 
     sp =  f.add_subplot(2, 1, 1);
+    f.suptitle(f"Comparison for different L and Analytical solution",
+           fontsize=16)
     plt.plot(T_list, M_analytical, color='IndianRed', label = 'Analytical')
     plt.scatter(T_list, M_8, s=50, color='RoyalBlue', label= 'L = 8')
     plt.scatter(T_list, M_16, s=50, color='ForestGreen', label= 'L = 16')
@@ -131,5 +133,5 @@ if __name__ == '__main__':
     plt.scatter(T_list, CV_32, s=50, color='Orange', label= 'L = 32')
     plt.xlabel("Temperature (T)", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
-    plt.savefig('./figs/Task1_analytical_2')
+    plt.savefig('./figs/Task1_analytical')
     plt.show()
