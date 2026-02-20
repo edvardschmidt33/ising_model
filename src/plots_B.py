@@ -29,7 +29,7 @@ def file_ret_B(L, B):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 16
+    L = 32
     E, M, CV, X, U, J_list, T_list = file_ret_B(L, 0)
     E001, M001, CV001, X001, U001, _, _ = file_ret_B(L, 0.01)
     E005, M005,CV005, X005,U005,_,_ = file_ret_B(L, 0.05)
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     sp =  f.add_subplot(2, 2, 1 );
     plt.scatter(T_list, E, s=10, color='IndianRed', label = 'B = 0')
-    plt.scatter(T_list, E001, s=10, color='RoyalBlue', label = ' B = 0.01')
+    plt.scatter(T_list, E001, s=10, color='RoyalBlue', label = 'B = 0.01')
     plt.scatter(T_list, E005, s=10, color='ForestGreen', label = 'B = 0.05')
     plt.scatter(T_list, E01, s=10, color='Coral', label = 'B = 0.1')
     plt.scatter(T_list, E05, s=10, color='DarkMagenta', label = 'B = 0.5')
