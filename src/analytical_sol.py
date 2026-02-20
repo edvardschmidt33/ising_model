@@ -131,5 +131,5 @@ if __name__ == '__main__':
     plt.scatter(T_list, CV_32, s=50, color='Orange', label= 'L = 32')
     plt.xlabel("Temperature (T)", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
-    plt.savefig('figs/Task1_analytical')
+    plt.savefig('./figs/Task1_analytical_2')
     plt.show()

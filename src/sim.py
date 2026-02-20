@@ -144,7 +144,7 @@ if __name__ == '__main__':
                'mc_sweeps': int(mc_sweeps),
                'eq_limit': int(eq_limit)}
     
-    with open(f"data/results_task1_L{L}.json", "w") as f:
+    with open(f"./data/results_task1_L{L}.json", "w") as f:
         json.dump(results, f, indent=4)
 
     print('Results saved in .json')
