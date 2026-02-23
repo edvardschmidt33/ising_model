@@ -28,7 +28,7 @@ def file_ret_J(L, J_sign):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 8
+    L = 32
     E_neg, M_neg, CV_neg, X_neg, _, J_list, T_list = file_ret_J(L, '-')
     E_pos, M_pos, CV_pos, X_pos, _, _, _ = file_ret_J(L, '+')
 
