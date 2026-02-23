@@ -6,6 +6,11 @@ from tqdm.auto import tqdm
 from numba import njit
 
 import json
+import argparse
+
+import os
+os.makedirs("data", exist_ok=True)
+os.makedirs("figs", exist_ok=True)
 
 
 def init_lattice(L):
@@ -114,11 +119,26 @@ def to_list(x):
 if __name__ == '__main__':
 
     ### Define algorithm parameters ###
+    parser = argparse.ArgumentParser(description='2D Ising Model Monte Carlo Simulation')
+    parser.add_argument("--plot", action="store_true",
+                        help="Enable plotting")
+    parser.add_argument("--io", action="store_true",
+                        help="Enable saving JSON output")
 
-    temp_points = 100      # number of temperature points
-    L = 32                 # lattice size
-    eq_limit = 50000       # Maximum iterations before equilibrum
-    mc_sweeps  = 10000     # Sweeps in Monte Carlo-sampling
+    # Optional numeric arguments
+    parser.add_argument("--L", type=int, default=32,
+                        help="Lattice size")
+    parser.add_argument("--sweeps", type=int, default=10000,
+                        help="Number of MC sweeps")
+    parser.add_argument("--eq", type=int, default=50000,
+                        help="Equilibration sweeps")
+
+    args = parser.parse_args()
+
+    temp_points = 100           # number of temperature points
+    L = args.L                  # lattice size
+    eq_limit = args.eq          # Maximum iterations before equilibrum
+    mc_sweeps  = args.sweeps    # Sweeps in Monte Carlo-sampling
 
     T_list = np.linspace(0.5, 5, temp_points)        #change to real Boltzman constant if necessary
     J_list = 1/(T_list)
@@ -128,6 +148,8 @@ if __name__ == '__main__':
     CV ,X = np.zeros(temp_points), np.zeros(temp_points)
     U = np.zeros(temp_points)
     
+    print(f'Metropolis simulation with L = {L} started')
+    print(30*'-')
     main()
 
 
@@ -144,10 +166,36 @@ if __name__ == '__main__':
                'mc_sweeps': int(mc_sweeps),
                'eq_limit': int(eq_limit)}
     
-    with open(f"./data/results_task1_L{L}.json", "w") as f:
-        json.dump(results, f, indent=4)
+    if  args.io:
+        with open(f"./data/results_task1_L{L}.json", "w") as f:
+            json.dump(results, f, indent=4)
+        print("Results saved in .json")
 
-    print('Results saved in .json')
+    if args.plot:
+        f = plt.figure(figsize=(16,10))
 
-    plt.scatter(T_list, U)
-    plt.show()
+
+        sp =  f.add_subplot(2, 2, 1 );
+        plt.scatter(T_list, E, s=50, color='Red')
+        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
+
+        sp =  f.add_subplot(2, 2, 2);
+        plt.scatter(T_list, M, s=50, color='Blue')
+        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
+
+        sp =  f.add_subplot(2, 2, 3 );
+        plt.scatter(T_list, CV, s=50, color='Red')
+        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
+
+        sp =  f.add_subplot(2, 2, 4 );
+        plt.scatter(T_list, X, s=50, color='Blue')
+        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
+
+        plt.savefig(f'./figs/Task1_{L}x{L}')
+        plt.show()
+
+print('Complete')
