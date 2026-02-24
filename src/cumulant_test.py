@@ -18,7 +18,7 @@ if __name__ == '__main__':
     ax.plot(T_list, U_16, color='IndianRed',  label='L = 16')
     ax.plot(T_list, U_32, color='ForestGreen', label='L = 32')
 
-    special = 2.2735
+    special = 2.27345
 
     # Vertical line
     ax.axvline(special, color='red', linestyle='--', alpha=0.6, label = 'intersection')
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     def custom_formatter(x, pos):
         if abs(x - special) < 1e-6:
-            return "2.274"          
+            return f"{special:.3f}"          
         return f"{x:.0f}"            
 
     ax.xaxis.set_major_formatter(ticker.FuncFormatter(custom_formatter))
