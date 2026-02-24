@@ -143,4 +143,4 @@ if __name__ == '__main__':
         plt.savefig(f'./figs/Task1_{L}x{L}')
         plt.show()
 
-print('Complete')
+    print('Complete')
