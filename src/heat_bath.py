@@ -5,7 +5,9 @@ from tqdm.auto import tqdm
 from numba import njit
 import argparse
 from sim import init_lattice, Energy, Mag, equilibriate, to_list
-
+import os
+os.makedirs("./data", exist_ok=True)
+os.makedirs("./figs", exist_ok=True)
 
 
 

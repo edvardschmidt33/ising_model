@@ -9,8 +9,8 @@ import json
 import argparse
 
 import os
-os.makedirs("data", exist_ok=True)
-os.makedirs("figs", exist_ok=True)
+os.makedirs("./data", exist_ok=True)
+os.makedirs("./figs", exist_ok=True)
 
 
 def init_lattice(L):
@@ -174,7 +174,8 @@ if __name__ == '__main__':
     if args.plot:
         f = plt.figure(figsize=(16,10))
 
-
+        f.suptitle(f"Metropolis-algorithm with L = {L}",
+           fontsize=18)
         sp =  f.add_subplot(2, 2, 1 );
         plt.scatter(T_list, E, s=50, color='Red')
         plt.xlabel("Temperature (T)", fontsize=20);
@@ -198,4 +199,4 @@ if __name__ == '__main__':
         plt.savefig(f'./figs/Task1_{L}x{L}')
         plt.show()
 
-print('Complete')
+    print('Complete')

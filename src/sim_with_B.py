@@ -4,6 +4,9 @@ import json
 from tqdm.auto import tqdm
 from numba import njit
 from sim import main, equilibriate, MonterCarlo_move, Mag, init_lattice, to_list
+import os
+os.makedirs("./data", exist_ok=True)
+os.makedirs("./figs", exist_ok=True)
 
 
 @njit(cache = True)
