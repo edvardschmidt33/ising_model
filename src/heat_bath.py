@@ -4,7 +4,7 @@ import json
 from tqdm.auto import tqdm
 from numba import njit
 import argparse
-from sim import init_lattice, Energy, Mag, equilibriate, to_list
+from sim import init_lattice, Mag, equilibriate, to_list
 import os
 os.makedirs("./data", exist_ok=True)
 os.makedirs("./figs", exist_ok=True)
@@ -35,13 +35,24 @@ def MonterCarlo_move(s, L, J):
             s[i,j] = -1
     return s
 
+@njit(cache=True, fastmath=True)
+def Energy(s, L, J):
+    energy = 0.0
+    for i in range(L):
+        for j in range(L):
+            S = s[i, j]
+            energy -= J * S * (s[(i+1) % L, j] + s[i, (j+1) % L])  # right + down only
+    return energy
+
+
 
 def main():
     for n, J in tqdm(enumerate(J_list), total=len(J_list), desc="J loop"):   
         s = init_lattice(L)
-        E_j = M_j = 0
-        E2_j = M2_j = 0
-        M4_j = 0
+        E_j = M_j = 0.0
+        E2_j = M2_j = 0.0
+        M4_j = 0.0
+        M_j_raw = 0.0
         equilibriate(s, L, J, eq_limit)
         
         for _ in range(mc_sweeps):
@@ -51,6 +62,7 @@ def main():
         
             E_j += E_sample
             M_j += abs(M_sample)
+            M_j_raw += M_sample
             E2_j += E_sample*E_sample
             M2_j += M_sample*M_sample
             M4_j += M_sample**4
@@ -60,8 +72,8 @@ def main():
         E[n] = E_j/(mc_sweeps*L*L)
         M[n] = M_j/(mc_sweeps*L*L)
         U[n] = 1 - M4_avg / (3 * (M2_avg**2))
-        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L*T*T) 
-        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L*T) 
+        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L) #*T*T) 
+        X[n] = (M2_j/mc_sweeps - (M_j_raw/mc_sweeps)**2)/(L*L) #*T) 
 
 
 if __name__ == '__main__':

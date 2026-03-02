@@ -76,7 +76,7 @@ if __name__ == '__main__':
     plt.scatter(T_list, res_CV_hb, s=10, color='RoyalBlue')
     plt.axhline(0, color='black', linewidth=1, alpha=0.5)
     plt.title(f"RMSE: Met={rmse_CV_met:.2e}, HB={rmse_CV_hb:.2e}", fontsize=12)
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
 
 

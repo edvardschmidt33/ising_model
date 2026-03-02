@@ -41,25 +41,25 @@ if __name__ == '__main__':
     plt.scatter(T_list, E_pos, s=10, color='IndianRed', label = 'Positive')
     plt.scatter(T_list, E_neg, s=10, color='RoyalBlue', label = 'Negative')
     plt.legend(loc="best", framealpha=0.6)
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 2);
     plt.scatter(T_list, M_pos, s=10, color='IndianRed')
     plt.scatter(T_list, M_neg, s=10, color='RoyalBlue')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 3 );
     plt.scatter(T_list, CV_pos, s=10, color='IndianRed')
     plt.scatter(T_list, CV_neg, s=10, color='RoyalBlue')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 4 );
     plt.scatter(T_list, X_pos, s=10, color='IndianRed')
     plt.scatter(T_list, X_neg, s=10, color='RoyalBlue')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
 
 

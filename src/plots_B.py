@@ -29,7 +29,7 @@ def file_ret_B(L, B):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 8
+    L = 32
     E, M, CV, X, U, J_list, T_list = file_ret_B(L, 0)
     E001, M001, CV001, X001, U001, _, _ = file_ret_B(L, 0.01)
     E005, M005,CV005, X005,U005,_,_ = file_ret_B(L, 0.05)
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     plt.scatter(T_list, E05, s=10, color='DarkMagenta', label = 'B = 0.5')
     plt.scatter(T_list, E1, s=10, color='Khaki', label = 'B = 1.0')
     plt.legend(loc="best", framealpha=0.6)
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 2);
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     plt.scatter(T_list, M01, s=10, color='Coral')
     plt.scatter(T_list, M05, s=10, color='DarkMagenta')
     plt.scatter(T_list, M1, s=10, color='Khaki')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 3 );
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     plt.scatter(T_list, CV01, s=10, color='Coral')
     plt.scatter(T_list, CV05, s=10, color='DarkMagenta')
     plt.scatter(T_list, CV1, s=10, color='Khaki')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
 
     sp =  f.add_subplot(2, 2, 4 );
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     plt.scatter(T_list, X01, s=10, color='Coral')
     plt.scatter(T_list, X05, s=10, color='DarkMagenta')
     plt.scatter(T_list, X1, s=10, color='Khaki')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
 
     plt.savefig(f'./figs/task2_L{L}')

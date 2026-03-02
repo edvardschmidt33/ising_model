@@ -20,18 +20,30 @@ def dE(s, i, j, L, J, B):
 
 
 
-@njit(cache = True, fastmath = True)
+# @njit(cache = True, fastmath = True)
+# def Energy(s, L, J, B):
+#     energy = 0
+#     for i in range(L):
+#         for j in range(L):
+#             S = s[i, j]
+#             nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
+#             energy += nn*S   
+    
+#     energy = energy/4
+#     energy += -B*np.sum(s)
+#     return energy #add/remove J
+
+
+@njit(cache=True, fastmath=True)
 def Energy(s, L, J, B):
-    energy = 0
+    energy = 0.0
     for i in range(L):
         for j in range(L):
             S = s[i, j]
-            nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
-            energy += nn*S   
+            energy -= J * S * (s[(i+1) % L, j] + s[i, (j+1) % L])  # right + down only
     
-    energy = energy/4
     energy += -B*np.sum(s)
-    return energy #add/remove J
+    return energy
 
 @njit(cache = True, fastmath = True)
 def MonterCarlo_move(s, L, J, B):
@@ -78,9 +90,10 @@ def equilibriate(s, L, J, B ,max_sweeps,stable_blocks = 5, block_size = 100, tol
 def main(B):
     for n, J in tqdm(enumerate(J_list), total=len(J_list), desc="J loop"):   
         s = init_lattice(L)
-        E_j = M_j = 0
-        E2_j = M2_j = 0
-        M4_j = 0
+        E_j = M_j = 0.0
+        E2_j = M2_j = 0.0
+        M4_j = 0.0
+        M_j_raw = 0.0
         equilibriate(s, L, -J, B, eq_limit)
         
         for _ in range(mc_sweeps):
@@ -90,14 +103,15 @@ def main(B):
         
             E_j += E_sample
             M_j += abs(M_sample)
+            M_j_raw += M_sample
             E2_j += E_sample*E_sample
             M2_j += M_sample*M_sample
             M4_j += M_sample**4
         T = T_list[n]
         E[n] = E_j/(mc_sweeps*L*L)
         M[n] = M_j/(mc_sweeps*L*L)
-        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L*T*T) 
-        X[n] = (M2_j- M_j*M_j/mc_sweeps)/(mc_sweeps*L*L*T) 
+        CV[n] = (E2_j - E_j*E_j/mc_sweeps)/(mc_sweeps*L*L) # *T*T) 
+        X[n] = (M2_j/mc_sweeps - (M_j_raw/mc_sweeps)**2)/(L*L) #*T) 
 
 
 

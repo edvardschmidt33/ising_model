@@ -18,7 +18,7 @@ if __name__ == '__main__':
     ax.plot(T_list, U_16, color='IndianRed',  label='L = 16')
     ax.plot(T_list, U_32, color='ForestGreen', label='L = 32')
 
-    special = 2.27345
+    special = 2.2858
 
     # Vertical line
     ax.axvline(special, color='red', linestyle='--', alpha=0.6, label = 'intersection')

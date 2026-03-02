@@ -93,9 +93,9 @@ if __name__ == '__main__':
     E_32, M_32, CV_32, U32,J_list, T_list = file_ret(32)
     z_list = [z(J) for J in J_list]
     M_list = zip(z_list, J_list)
-    E_analytical = 0.5* np.array([analytical_E_per_spin(J) for J in J_list])
+    E_analytical = J_list * np.array([analytical_E_per_spin(J) for J in J_list])
     M_analytical = np.array([analytical_M(J, z) for z, J in M_list])
-    CV_analytical = 0.5* np.array([analytical_CV_per_spin(J) for J in J_list])
+    CV_analytical = np.array([analytical_CV_per_spin(J) for J in J_list])
 
 
     results = {
@@ -111,27 +111,36 @@ if __name__ == '__main__':
 
 
 
-    f = plt.figure(figsize=(7,8))
+    f = plt.figure(figsize=(8,12.7))
 
 
 
-    sp =  f.add_subplot(2, 1, 1);
+    sp =  f.add_subplot(3, 1, 1);
     f.suptitle(f"Comparison for different L and Analytical solution",
            fontsize=16)
     plt.plot(T_list, M_analytical, color='IndianRed', label = 'Analytical')
     plt.scatter(T_list, M_8, s=50, color='RoyalBlue', label= 'L = 8')
     plt.scatter(T_list, M_16, s=50, color='ForestGreen', label= 'L = 16')
     plt.scatter(T_list, M_32, s=50, color='Orange', label= 'L = 32')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
     plt.legend()
 
-    sp =  f.add_subplot(2, 1, 2 );
+    sp =  f.add_subplot(3, 1, 2 );
     plt.plot(T_list, CV_analytical, color='IndianRed', label= 'Analytical')
     plt.scatter(T_list, CV_8, s=50, color='RoyalBlue', label= 'L = 8')
     plt.scatter(T_list, CV_16, s=50, color='ForestGreen', label= 'L = 16')
     plt.scatter(T_list, CV_32, s=50, color='Orange', label= 'L = 32')
-    plt.xlabel("Temperature (T)", fontsize=20);
+    plt.xlabel("$k_B T/ J$", fontsize=20);
     plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
+    plt.savefig('./figs/Task1_analytical')
+
+    sp =  f.add_subplot(3, 1, 3 );
+    plt.plot(T_list, E_analytical, color='IndianRed', label= 'Analytical')
+    plt.scatter(T_list, E_8, s=50, color='RoyalBlue', label= 'L = 8')
+    plt.scatter(T_list, E_16, s=50, color='ForestGreen', label= 'L = 16')
+    plt.scatter(T_list, E_32, s=50, color='Orange', label= 'L = 32')
+    plt.xlabel("$k_B T/ J$", fontsize=20);
+    plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
     plt.savefig('./figs/Task1_analytical')
     plt.show()
