@@ -53,7 +53,7 @@ def analytical_CV(L, J, kappa, kappa_prim):
 def analytical_E_per_spin(J):  # here J is K = 1/T
     k = kappa(J)
     kp = kappa_prim(J)
-    return -coth(2*J) * (1 + (2/np.pi)*kp*K_1(k))
+    return -J * coth(2*J) * (1 + (2/np.pi)*kp*K_1(k))
 
 def analytical_CV_per_spin(J):
     k = kappa(J)
@@ -93,7 +93,7 @@ if __name__ == '__main__':
     E_32, M_32, CV_32, U32,J_list, T_list = file_ret(32)
     z_list = [z(J) for J in J_list]
     M_list = zip(z_list, J_list)
-    E_analytical = J_list * np.array([analytical_E_per_spin(J) for J in J_list])
+    E_analytical =  np.array([analytical_E_per_spin(J) for J in J_list])
     M_analytical = np.array([analytical_M(J, z) for z, J in M_list])
     CV_analytical = np.array([analytical_CV_per_spin(J) for J in J_list])
 
