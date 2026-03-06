@@ -1,8 +1,26 @@
 import numpy as np
 import json
 import matplotlib.pyplot as plt
-from analytical_sol import file_ret
 import matplotlib.ticker as ticker
+
+
+def file_ret(L):
+    filename = f'./data/results_heat_bath_L{L}.json'
+    
+    with open(filename, "r") as f:
+        data = json.load(f)
+    E = np.array(data["E"])
+    M = np.array(data["M"])
+    CV = np.array(data["CV"])
+
+    T_list = np.array(data["T_list"])
+    J_list = np.array(data["J_list"])
+
+
+    U = np.array(data["U"])
+    return E, M, CV, U, J_list, T_list
+
+
 
 
 
@@ -36,12 +54,12 @@ if __name__ == '__main__':
 
     ax.set_xlabel('$k_B T/ J$')
     ax.set_ylabel('Cumulant (4th order)')
-    ax.set_title('Cumulant versus temperature for L = 8, 16, 32 (Metropolis algorithm)')
+    ax.set_title('Cumulant versus temperature for L = 8, 16, 32 (HB algorithm)')
     ax.set_ylim(-0.2, 0.8)
     ax.set_xlim(0.5, 5)
 
     ax.legend()
 
-    fig.savefig('./figs/Task1_cumulant.png', dpi=300)
+    fig.savefig('./figs/HB_cumulant.png', dpi=300)
     plt.show()
         

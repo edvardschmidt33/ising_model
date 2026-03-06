@@ -9,6 +9,7 @@ import os
 os.makedirs("./data", exist_ok=True)
 os.makedirs("./figs", exist_ok=True)
 
+np.random.seed(0)
 
 
 @njit(cache = True)
@@ -33,7 +34,7 @@ def MonterCarlo_move(s, L, J):
             s[i,j] = 1
         else:
             s[i,j] = -1
-    return s
+    #return s
 
 @njit(cache=True, fastmath=True)
 def Energy(s, L, J):
@@ -133,28 +134,29 @@ if __name__ == '__main__':
     if args.plot:
         f = plt.figure(figsize=(16,10))
 
-
+        f.suptitle(f"Heat Bath-algorithm with L = {L}",
+           fontsize=25)
         sp =  f.add_subplot(2, 2, 1 );
-        plt.scatter(T_list, E, s=50, color='Red')
-        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.scatter(T_list, E, s=30, color='IndianRed')
+        plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 2);
-        plt.scatter(T_list, M, s=50, color='Blue')
-        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.scatter(T_list, M, s=30, color='RoyalBlue')
+        plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 3 );
-        plt.scatter(T_list, CV, s=50, color='Red')
-        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.scatter(T_list, CV, s=30, color='IndianRed')
+        plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 4 );
-        plt.scatter(T_list, X, s=50, color='Blue')
-        plt.xlabel("Temperature (T)", fontsize=20);
+        plt.scatter(T_list, X, s=30, color='RoyalBlue')
+        plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
 
-        plt.savefig(f'./figs/Task1_{L}x{L}')
+        plt.savefig(f'./figs/Task3_{L}x{L}')
         plt.show()
 
     print('Complete')

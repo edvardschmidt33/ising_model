@@ -8,6 +8,7 @@ os.makedirs("./data", exist_ok=True)
 os.makedirs("./figs", exist_ok=True)
 from sim import main, equilibriate, MonterCarlo_move, Mag, init_lattice, to_list
 
+np.random.seed(0)
 
 @njit(cache = True)
 def dE(s, i, j, L, J, B):
@@ -17,7 +18,6 @@ def dE(s, i, j, L, J, B):
     r = s[i, j + 1 if j<L-1 else 0]
 
     return  2 * s[i, j] * (J*(t + b + l + r) + B)
-
 
 
 # @njit(cache = True, fastmath = True)

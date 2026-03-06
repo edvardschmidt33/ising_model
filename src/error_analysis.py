@@ -24,7 +24,7 @@ def mae(residuals: np.ndarray) -> float:
 if __name__ == '__main__':
     
     ### Specify L ###
-    L = 32
+    L = 8
     
     E_met, M_met, CV_met, X_met, _, J_list, T_list = file_ret_alg(L, 'metropolis')
     E_hb, M_hb, CV_hb, X_hb, _, _, _ = file_ret_alg(L, 'heat_bath')

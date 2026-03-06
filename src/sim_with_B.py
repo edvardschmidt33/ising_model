@@ -8,6 +8,7 @@ import os
 os.makedirs("./data", exist_ok=True)
 os.makedirs("./figs", exist_ok=True)
 
+np.random.seed(0)
 
 @njit(cache = True)
 def dE(s, i, j, L, J, B):
@@ -28,7 +29,6 @@ def dE(s, i, j, L, J, B):
 #             S = s[i, j]
 #             nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
 #             energy += -nn*S   
-    
 #     energy = J*energy/4
 #     energy += -B*np.sum(s)
 #     return energy #add/remove J
@@ -40,7 +40,6 @@ def Energy(s, L, J, B):
         for j in range(L):
             S = s[i, j]
             energy -= J * S * (s[(i+1) % L, j] + s[i, (j+1) % L])  # right + down only
-    
     energy += -B*np.sum(s)
     return energy
 

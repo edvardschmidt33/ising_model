@@ -70,5 +70,5 @@ if __name__ == '__main__':
     plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
 
 
-    plt.savefig(f'./figs/task3_{L}')
+    plt.savefig(f'./figs/task3_comp{L}')
     plt.show()   

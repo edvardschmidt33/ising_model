@@ -2,11 +2,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
-
 from numba import njit
 
 import json
 import argparse
+
+np.random.seed(0)
 
 import os
 os.makedirs("./data", exist_ok=True)
@@ -37,15 +38,7 @@ def MonterCarlo_move(s, L, J):
             s[i,j] = -s[i, j]
     return s
 
-# @njit(cache = True, fastmath = True)
-# def Energy(s, L, J):
-#     energy = 0
-#     for i in range(L):
-#         for j in range(L):
-#             S = s[i, j]
-#             nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
-#             energy += -nn*S   
-#     return J*energy/4 #add/remove J
+
 
 @njit(cache=True, fastmath=True)
 def Energy(s, L, J):
@@ -187,24 +180,24 @@ if __name__ == '__main__':
         f = plt.figure(figsize=(16,10))
 
         f.suptitle(f"Metropolis-algorithm with L = {L}",
-           fontsize=18)
+           fontsize=25)
         sp =  f.add_subplot(2, 2, 1 );
-        plt.scatter(T_list, E, s=50, color='Red')
+        plt.scatter(T_list, E, s=30, color='IndianRed')
         plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Energy ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 2);
-        plt.scatter(T_list, M, s=50, color='Blue')
+        plt.scatter(T_list, M, s=30, color='RoyalBlue')
         plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("|Magnetization| ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 3 );
-        plt.scatter(T_list, CV, s=50, color='Red')
+        plt.scatter(T_list, CV, s=30, color='IndianRed')
         plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Specific Heat ", fontsize=20);         plt.axis('tight');
 
         sp =  f.add_subplot(2, 2, 4 );
-        plt.scatter(T_list, X, s=50, color='Blue')
+        plt.scatter(T_list, X, s=30, color='RoyalBlue')
         plt.xlabel("$k_B T/ J$", fontsize=20);
         plt.ylabel("Susceptibility ", fontsize=20);         plt.axis('tight');
 
