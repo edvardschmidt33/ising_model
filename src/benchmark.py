@@ -4,6 +4,7 @@ import subprocess
 import statistics as stats
 from tqdm.auto import tqdm
 import json
+import argparse
 
 
 def run_once(cmd):
@@ -28,7 +29,12 @@ def benchmark(cmd, warmups = 2, repeats = 5):
 
 
 if __name__ == '__main__':
-    L = 8
+    parser = argparse.ArgumentParser(description='Plot 2D Ising Model with external field')
+    parser.add_argument("--L", type=int, default=32,
+                        help="Lattice size")
+    args = parser.parse_args()
+    
+    L = args.L
 
     common_flags = ['--L', str(L)]
 

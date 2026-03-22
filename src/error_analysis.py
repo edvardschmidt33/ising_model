@@ -2,6 +2,7 @@ import json
 import matplotlib.pyplot as plt
 from plots_heatbath_vs_metropolis import file_ret_alg
 import numpy as np
+import argparse
 
 
 def residual(analytical, numerical):
@@ -24,7 +25,12 @@ def mae(residuals: np.ndarray) -> float:
 if __name__ == '__main__':
     
     ### Specify L ###
-    L = 8
+    parser = argparse.ArgumentParser(description='Error analysis')
+    parser.add_argument("--L", type=int, default=32,
+                        help="Lattice size")
+    args = parser.parse_args()
+    
+    L = args.L
     
     E_met, M_met, CV_met, X_met, _, J_list, T_list = file_ret_alg(L, 'metropolis')
     E_hb, M_hb, CV_hb, X_hb, _, _, _ = file_ret_alg(L, 'heat_bath')

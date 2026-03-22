@@ -3,12 +3,13 @@ import json
 import matplotlib.pyplot as plt
 from analytical_sol import file_ret
 import matplotlib.ticker as ticker
+import argparse
 
 def file_ret_alg(L, alg):
     if alg == 'heat_bath':
         filename = f'./data/results_heat_bath_L{L}.json'
     elif alg == 'metropolis':
-        filename = f'./data/results_task1_L{L}.json'
+        filename = f'./data/results_task1_L{L}_avg.json'
     elif alg == 'analytical':
         filename = f'./data/results_task1_analytical.json'
     else:
@@ -34,7 +35,12 @@ def file_ret_alg(L, alg):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 32
+    parser = argparse.ArgumentParser(description='Plot 2D Ising Model with HB vs Metropolis')
+    parser.add_argument("--L", type=int, default=32,
+                        help="Lattice size")
+    args = parser.parse_args()
+    
+    L = args.L
     
     E_met, M_met, CV_met, X_met, _, J_list, T_list = file_ret_alg(L, 'metropolis')
     E_hb, M_hb, CV_hb, X_hb, _, _, _ = file_ret_alg(L, 'heat_bath')

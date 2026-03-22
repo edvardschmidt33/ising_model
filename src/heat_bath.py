@@ -79,7 +79,7 @@ def main():
 
 if __name__ == '__main__':
     ### Define algorithm parameters ###
-    parser = argparse.ArgumentParser(description='2D Ising Model Monte Carlo Simulation')
+    parser = argparse.ArgumentParser(description='2D Ising Model Monte Carlo HB Simulation')
     parser.add_argument("--plot", action="store_true",
                         help="Enable plotting")
     parser.add_argument("--io", action="store_true",

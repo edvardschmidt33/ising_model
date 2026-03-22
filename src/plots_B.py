@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import json
-
+import argparse
 
 
 def file_ret_B(L, B):
     B_file = int(B*100)
     if B == 0:
-        filename = f'./data/results_task1_L{L}.json'
+        filename = f'./data/results_task1_L{L}_avg.json'
     else:
         filename = f'./data/results_task2_L{L}_B{B_file}.json'
     
@@ -29,7 +29,16 @@ def file_ret_B(L, B):
 if __name__ == '__main__':
     #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
     ### Specify L ###
-    L = 32
+    
+    parser = argparse.ArgumentParser(description='Plot 2D Ising Model with external field')
+    parser.add_argument("--L", type=int, default=32,
+                        help="Lattice size")
+    args = parser.parse_args()
+    
+    L = args.L
+
+
+
     E, M, CV, X, U, J_list, T_list = file_ret_B(L, 0)
     E001, M001, CV001, X001, U001, _, _ = file_ret_B(L, 0.01)
     E005, M005,CV005, X005,U005,_,_ = file_ret_B(L, 0.05)

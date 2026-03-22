@@ -21,17 +21,6 @@ def dE(s, i, j, L, J, B):
 
 
 
-# @njit(cache = True, fastmath = True)
-# def Energy(s, L, J, B):
-#     energy = 0
-#     for i in range(L):
-#         for j in range(L):
-#             S = s[i, j]
-#             nn = s[(i+1)%L, j] + s[i,(j+1)%L] + s[(i-1)%L, j] + s[i,(j-1)%L]
-#             energy += -nn*S   
-#     energy = J*energy/4
-#     energy += -B*np.sum(s)
-#     return energy #add/remove J
 
 @njit(cache=True, fastmath=True)
 def Energy(s, L, J, B):

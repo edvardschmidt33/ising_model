@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 # Import from your sim.py
 from sim import init_lattice, MonterCarlo_move, Energy, Mag
 
-
+np.random.seed(0)
 
 def make_snapshots(
     L: int = 32,

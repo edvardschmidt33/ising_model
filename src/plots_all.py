@@ -1,11 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+import argparse
 
 
-
-def file_ret(L):
-    filename = f'./data/results_task1_L{L}.json'
+def file_ret(L, avg = True):
+    if not avg:
+        filename = f'./data/results_task1_L{L}.json'
+    if avg:
+        filename = f'./data/results_task1_L{L}_avg.json'
     
     with open(filename, "r") as f:
         data = json.load(f)
@@ -23,11 +26,19 @@ def file_ret(L):
 
 
 if __name__ == '__main__':
-    #List of B:s tested: [0.01, 0.05, 0.1, 0.5, 1]
-    ### Specify L ###
-    E_8, M_8, CV_8, U_8, X_8 ,J_list, T_list = file_ret(8)
-    E_16, M_16, CV_16, U_16, X_16,  J_list, T_list = file_ret(16)
-    E_32, M_32, CV_32, U32, X_32, J_list, T_list = file_ret(32)
+
+    parser = argparse.ArgumentParser(description='Plot 2D Ising Model for all L')
+    parser.add_argument("--avg", action='store_true',
+                        help="Lattice size")
+    args = parser.parse_args()
+    
+    avg = args.avg
+    print(avg)
+
+
+    E_8, M_8, CV_8, U_8, X_8 ,J_list, T_list = file_ret(8, avg)
+    E_16, M_16, CV_16, U_16, X_16,  J_list, T_list = file_ret(16, avg)
+    E_32, M_32, CV_32, U32, X_32, J_list, T_list = file_ret(32, avg)
     
     f = plt.figure(figsize=(16,10))
     f.suptitle(f"Metropolis Monte Carlo Simulation B = 0",
